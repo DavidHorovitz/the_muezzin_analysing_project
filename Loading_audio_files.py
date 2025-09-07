@@ -20,19 +20,27 @@ class Audio_loader:
             self.list_of_paths.append(file_path)
             # print(file_path.stat())
 
-            print(f"Processing: {file_path}")
-        print(self.list_of_paths)
+            # print(f"Processing: {file_path}")
+        # print(self.list_of_paths)
         return self.list_of_paths
 
     def insert_metadata_to_json(self,array_of_paths):
+        list_of_metadata=[]
+
         for path in array_of_paths:
+            self.dict_of_metadata={}
             self.dict_of_metadata["path"]=str(path)
             self.dict_of_metadata["metadata"] = {}
             self.dict_of_metadata["metadata"]["name"]=path.name
             self.dict_of_metadata["metadata"]["size"]=path.stat().st_size
-            pprint(self.dict_of_metadata)
 
 
 
-start_loader=Audio_loader()
-insert_metadata=start_loader.insert_metadata_to_json(start_loader.load_file())
+            list_of_metadata.append(self.dict_of_metadata)
+        # print(list_of_metadata)
+        return list_of_metadata
+
+
+
+# start_loader=Audio_loader()
+# insert_metadata=start_loader.insert_metadata_to_json(start_loader.load_file())
