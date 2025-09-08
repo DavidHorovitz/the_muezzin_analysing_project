@@ -1,8 +1,7 @@
-from kafka import KafkaProducer,KafkaConsumer
+from kafka import KafkaProducer
 import json
-import time
 import config
-from Loading_audio_files import Audio_loader
+from load_path_and_push_to_kafka.Loading_audio_files import Audio_loader
 from pprint import pprint
 
 
@@ -29,17 +28,11 @@ class Publisher:
             if self.producer:
                 self.producer.flush()
 
-        # except Exception as e:
-        #     print(f"error: {e}")
-        # finally:
-        #     if self.producer:
-        #         self.producer.flush()
 
-c=Audio_loader()
-a=Publisher()
-# for i in range(32):
 
-a.publish_message(a.muezzin_audio,c.insert_metadata_to_json(c.load_file()))
+louder=Audio_loader()
+publisher=Publisher()
+publisher.publish_message(publisher.muezzin_audio,louder.insert_metadata_to_json(louder.load_file()))
 
 
         #Publish message to a topic
