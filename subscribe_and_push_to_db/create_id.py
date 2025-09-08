@@ -1,16 +1,19 @@
 from pprint import pprint
 from loed_to_elastic import Loed_to_elastic
+from loed_to_mongo import Loed_to_mongo
 import config
 from subscriber import Consumer
-class Create_id:
+class Create_id_and_push_to_db:
     def __init__(self):
         pass
 
-    def genrate_id_and_push_to_elastic(self):
+    def genrate_id_and_push_to_db(self):
         consumer = Consumer()
         events=consumer.consume_events(config.TOPIC_MUEZZIN_AUDIO)
-        a = Loed_to_elastic()
-        a.connection_to_elastic()
+        loed_to_elastic = Loed_to_elastic()
+        loed_to_elastic.connection_to_elastic()
+        loed_to_mongo=Loed_to_mongo()
+
         for dict in events:
 
             new_dict = {}
@@ -18,16 +21,18 @@ class Create_id:
             new_dict["path"]=dict.value["path"]
             new_dict["metadata"]=dict.value["metadata"]
             # print(new_dict)
-
-
-            a.create_index_if_not_exists()
-            a.load_data(new_dict)
+            loed_to_elastic.create_index_if_not_exists()
+            loed_to_elastic.load_data(new_dict)
             print("pushed_to_elastic")
+            loed_to_mongo.insert_one(new_dict["path"], new_dict)
+            print("pushed_to_mongo")
+
+
             pprint(new_dict)
 
 
 
-w=Create_id()
-w.genrate_id_and_push_to_elastic()
+cr=Create_id_and_push_to_db()
+cr.genrate_id_and_push_to_db()
 
 
