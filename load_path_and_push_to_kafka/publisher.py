@@ -3,6 +3,7 @@ import json
 import config
 from load_path_and_push_to_kafka.Loading_audio_files import Audio_loader
 from pprint import pprint
+from logger import Logger
 
 
 class Publisher:
@@ -11,7 +12,7 @@ class Publisher:
         self.muezzin_audio= config.TOPIC_MUEZZIN_AUDIO
         self.producer = None
         self.get_producer_config()
-
+        self.logger = Logger.get_logger()
 
     def get_producer_config(self):
         self.producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
@@ -23,7 +24,7 @@ class Publisher:
     def publish_message(self,topic,message):
         for path in message:
             self.producer.send(topic, path)
-            print("pushed to kafka")
+            self.logger.info("pushed to kafka")
             pprint(path)
             if self.producer:
                 self.producer.flush()

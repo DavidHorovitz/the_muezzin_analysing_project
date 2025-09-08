@@ -1,6 +1,6 @@
 
 from elasticsearch import Elasticsearch,helpers
-
+from logger import Logger
 import config
 
 
@@ -9,13 +9,14 @@ class Loed_to_elastic:
         self.ES_HOST=config.ES_HOST
         self.ES_INDEX=config.ES_INDEX
         self.es=Elasticsearch(self.ES_HOST, verify_certs=False)
+        self.logger = Logger.get_logger()
 
     def connection_to_elastic(self):
         if self.es.ping():
-            print("Elasticsearch is up!")
+            self.logger.info("Elasticsearch is up!")
             return self.es
         else:
-            print("Connection to Elasticsearch failed")
+            self.logger.error("Connection to Elasticsearch failed")
             return None
 
     def create_index_if_not_exists(self):

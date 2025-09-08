@@ -4,13 +4,14 @@ import os
 import glob
 import config
 from pprint import pprint
-
+from logger import Logger
 
 class Audio_loader:
     def __init__(self):
         self.path=config.PATH_TO_FILES
         self.list_of_paths=[]
         self.dict_of_metadata={}
+        self.logger = Logger.get_logger()
 
     def load_file(self,path=None):
         if path is None:
