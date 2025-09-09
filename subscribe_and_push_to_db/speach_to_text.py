@@ -13,8 +13,8 @@ class AudioTranscriber:
         return text.strip()
 
 
-if __name__ == "__main__":
-    transcriber = AudioTranscriber()
-    text = transcriber.transcribe("C:\podcasts\download (1).wav")
-    print("Transcribed text:")
-    print(text)
+# if __name__ == "__main__":
+#     transcriber = AudioTranscriber()
+#     text = transcriber.transcribe("C:\podcasts\download (1).wav")
+#     print("Transcribed text:")
+#     print(text)

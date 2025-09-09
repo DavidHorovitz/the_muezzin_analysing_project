@@ -4,6 +4,8 @@ from loed_to_mongo import Loed_to_mongo
 import config
 from logger import Logger
 from subscriber import Consumer
+from speach_to_text import AudioTranscriber
+
 class Create_id_and_push_to_db:
     def __init__(self):
         pass
@@ -15,6 +17,7 @@ class Create_id_and_push_to_db:
         loed_to_elastic = Loed_to_elastic()
         loed_to_elastic.connection_to_elastic()
         loed_to_mongo=Loed_to_mongo()
+        transcriber=AudioTranscriber()
 
         for dict in events:
 
@@ -28,6 +31,8 @@ class Create_id_and_push_to_db:
             logger.info("pushed_to_elastic")
             loed_to_mongo.insert_one(new_dict["path"], new_dict)
             logger.info("pushed_to_mongo")
+            gg=transcriber.transcribe(new_dict["path"])
+            print(gg)
 
 
             pprint(new_dict)
