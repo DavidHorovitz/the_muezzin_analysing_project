@@ -1,3 +1,4 @@
+from dbm import error
 from pathlib import Path
 import wave,struct
 import os
@@ -16,14 +17,19 @@ class Audio_loader:
     def load_file(self,path=None):
         if path is None:
             path=self.path
-        for file_path_str in glob.iglob(f"{path}/*.wav"):
-            file_path = Path(file_path_str)
-            self.list_of_paths.append(file_path)
-            # print(file_path.stat())
+        try:
+            for file_path_str in glob.iglob(f"{path}/*.wav"):
+                file_path = Path(file_path_str)
+                self.list_of_paths.append(file_path)
+                # print(file_path.stat())
 
-            # print(f"Processing: {file_path}")
-        # print(self.list_of_paths)
-        return self.list_of_paths
+                # print(f"Processing: {file_path}")
+            # print(self.list_of_paths)
+            self.logger.info("info: load paths")
+            return self.list_of_paths
+        except Exception as e:
+            self.logger.error(f"error{e}")
+
 
     def insert_metadata_to_json(self,array_of_paths):
         list_of_metadata=[]

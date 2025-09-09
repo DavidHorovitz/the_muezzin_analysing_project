@@ -20,7 +20,7 @@ class Loed_to_elastic:
             return None
 
     def create_index_if_not_exists(self):
-        # self.es.indices.delete(index=self.ES_INDEX, ignore_unavailable=True)
+        self.es.indices.delete(index=self.ES_INDEX, ignore_unavailable=True)
         if not self.es.indices.exists(index=self.ES_INDEX):
             global mapping
             mapping = {
@@ -47,7 +47,16 @@ class Loed_to_elastic:
                         "fields": {
                             "keyword": {
                                 "type": "keyword",
+                                "ignore_above": 256,
+                    "text_file": {
+                        "type": "text",
+                        "fields": {
+                            "keyword": {
+                                "type": "keyword",
                                 "ignore_above": 256
+                            }
+                        }
+                    }
                             }
                         }
                     }
@@ -60,7 +69,7 @@ class Loed_to_elastic:
             print(f"Index '{self.ES_INDEX}' already exists.")
 
     def load_data(self,dict):
-        document = {"my_metadata": dict["metadata"],"my_unique_id": dict["unique_id"]}
+        document = {"my_metadata": dict["metadata"],"my_unique_id": dict["unique_id"],"text_file":dict["text_file"]}
         response = self.es.index(index=self.ES_INDEX, id=dict["unique_id"], body=document)
 
 

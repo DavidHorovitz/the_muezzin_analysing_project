@@ -25,14 +25,17 @@ class Create_id_and_push_to_db:
             new_dict["unique_id"]=dict.value["path"]+str(dict.value["metadata"]["size"])
             new_dict["path"]=dict.value["path"]
             new_dict["metadata"]=dict.value["metadata"]
+            text = transcriber.transcribe(dict.value["path"])
+            new_dict["text_file"] =text
+
             # print(new_dict)
             loed_to_elastic.create_index_if_not_exists()
             loed_to_elastic.load_data(new_dict)
             logger.info("pushed_to_elastic")
             loed_to_mongo.insert_one(new_dict["path"], new_dict)
             logger.info("pushed_to_mongo")
-            gg=transcriber.transcribe(new_dict["path"])
-            print(gg)
+
+            # print(text)
 
 
             pprint(new_dict)
