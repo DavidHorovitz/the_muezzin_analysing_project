@@ -1,5 +1,8 @@
+from venv import logger
 
 from elasticsearch import Elasticsearch,helpers
+# from onnxruntime.transformers.models.t5.convert_to_onnx import logger
+
 from logger import Logger
 import config
 
@@ -20,7 +23,7 @@ class Loed_to_elastic:
             return None
 
     def create_index_if_not_exists(self):
-        self.es.indices.delete(index=self.ES_INDEX, ignore_unavailable=True)
+        # self.es.indices.delete(index=self.ES_INDEX, ignore_unavailable=True)
         if not self.es.indices.exists(index=self.ES_INDEX):
             global mapping
             mapping = {
@@ -64,13 +67,16 @@ class Loed_to_elastic:
             }
             }
             self.es.indices.create(index=self.ES_INDEX)
-            print(f"Index '{self.ES_INDEX}' created.")
+            logger.info(f"Index '{self.ES_INDEX}' created.")
         else:
-            print(f"Index '{self.ES_INDEX}' already exists.")
+            logger.info(f"Index '{self.ES_INDEX}' already exists.")
 
     def load_data(self,dict):
-        document = {"my_metadata": dict["metadata"],"my_unique_id": dict["unique_id"],"text_file":dict["text_file"]}
-        response = self.es.index(index=self.ES_INDEX, id=dict["unique_id"], body=document)
+        try:
+            document = {"my_metadata": dict["metadata"],"my_unique_id": dict["unique_id"],"text_file":dict["text_file"]}
+            response = self.es.index(index=self.ES_INDEX, id=dict["unique_id"], body=document)
+        except Exception as e:
+            logger.error("not pushed_to_elastic")
 
 
 
