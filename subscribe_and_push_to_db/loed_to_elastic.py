@@ -1,7 +1,7 @@
-from venv import logger
+# from venv import logger
 
 from elasticsearch import Elasticsearch,helpers
-# from onnxruntime.transformers.models.t5.convert_to_onnx import logger
+
 
 from logger import Logger
 import config
@@ -78,7 +78,7 @@ class Loed_to_elastic:
             document = {"my_metadata": dict["metadata"],"my_unique_id": dict["unique_id"],"text_file":dict["text_file"],"bds_percent":dict["bds_percent"],"is_bds":dict["is_bds"],"bds_threat_level":dict["bds_threat_level"]}
             response = self.es.index(index=self.ES_INDEX, id=dict["unique_id"], body=document)
         except Exception as e:
-            logger.error("not pushed_to_elastic")
+            self.logger.error("not pushed_to_elastic")
 
 
 

@@ -47,10 +47,12 @@
 
 
 from speach_to_text import AudioTranscriber
+from logger import Logger
 
-class Create_id_and_push_to_db:
+class Create_id:
     def __init__(self):
         self.transcriber = AudioTranscriber()
+        self.logger = Logger.get_logger()
 
     def process_event(self, event):
         new_dict = {
@@ -59,6 +61,6 @@ class Create_id_and_push_to_db:
             "metadata": event.value["metadata"],
             "text_file": self.transcriber.transcribe(event.value["path"])
         }
-        print("===============================================================================")
-        print(new_dict)
+        print("!!!===============================================================================!!!")
+        self.logger.info(new_dict)
         return new_dict

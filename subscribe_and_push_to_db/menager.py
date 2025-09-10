@@ -25,13 +25,13 @@ from decode_words import Decode_words
     # for dict in events:
 
 
-from create_id import Create_id_and_push_to_db
+from create_id import Create_id
 
 def maneger():
 
     logger = Logger.get_logger()
     consumer=Consumer()
-    processor = Create_id_and_push_to_db()
+    processor = Create_id()
     con=consumer.consume_events(config.TOPIC_MUEZZIN_AUDIO)
     loed_to_elastic=Loed_to_elastic()
     loed_to_mongo=Loed_to_mongo()
@@ -49,7 +49,7 @@ def maneger():
         try:
 
             new_dict = processor.process_event(event)
-            print(f"llllllllllllllllllllllll{event}")
+            print(f"the event : {event}")
 
             bdsAnalyzer.analyze_text(new_dict["text_file"],decode_words.not_so_hostile_words_decoded_string,decode_words.very_hostile_words_decoded_string)
             finel_dict=bdsAnalyzer.analyze_text_percent()
