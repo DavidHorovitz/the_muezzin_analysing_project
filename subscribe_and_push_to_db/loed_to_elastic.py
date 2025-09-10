@@ -67,16 +67,19 @@ class Loed_to_elastic:
             }
             }
             self.es.indices.create(index=self.ES_INDEX)
-            logger.info(f"Index '{self.ES_INDEX}' created.")
+            self.logger.info(f"Index '{self.ES_INDEX}' created.")
+
         else:
-            logger.info(f"Index '{self.ES_INDEX}' already exists.")
+            self.logger.info(f"Index '{self.ES_INDEX}' already exists.")
+
 
     def load_data(self,dict):
         try:
-            document = {"my_metadata": dict["metadata"],"my_unique_id": dict["unique_id"],"text_file":dict["text_file"]}
+            document = {"my_metadata": dict["metadata"],"my_unique_id": dict["unique_id"],"text_file":dict["text_file"],"bds_percent":dict["bds_percent"],"is_bds":dict["is_bds"],"bds_threat_level":dict["bds_threat_level"]}
             response = self.es.index(index=self.ES_INDEX, id=dict["unique_id"], body=document)
         except Exception as e:
             logger.error("not pushed_to_elastic")
+
 
 
 

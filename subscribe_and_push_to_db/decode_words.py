@@ -19,6 +19,8 @@ class Decode_words:
         # Convert the decoded bytes back to a string
         self.very_hostile_words_decoded_string = very_hostile_words_decoded_bytes.decode('utf-8')
         self.not_so_hostile_words_decoded_string = not_so_hostile_words_decoded_bytes.decode('utf-8')
+        print(type(self.very_hostile_words_decoded_string))
+        print(type(self.not_so_hostile_words_decoded_string))
 
         # print(f"very_hostile_words : {very_hostile_words_decoded_string}")
         # print(f"not_so_hostile_words : {not_so_hostile_words_decoded_string}")
@@ -27,8 +29,14 @@ class Decode_words:
 
         severe_dict={}
         not_severe_dict={}
-        splited_very_hostile_words=self.very_hostile_words_decoded_string.split(",")
-        splited_not_so_hostile_words=self.not_so_hostile_words_decoded_string.split(",")
+        splited_very_hostile_words=str(self.very_hostile_words_decoded_string.lower())
+        splited_not_so_hostile_words=str(self.not_so_hostile_words_decoded_string.lower())
+        print(type(splited_very_hostile_words))
+
+        splited_very_hostile_words=list(splited_very_hostile_words.split(","))
+        splited_not_so_hostile_words=list(splited_not_so_hostile_words.split(","))
+        print(type(splited_very_hostile_words))
+
         for word in splited_very_hostile_words:
             severe_dict[word]=2
         print(f" severe_dict : {severe_dict}")
@@ -39,6 +47,6 @@ class Decode_words:
         # print(f" very_hostile_words : {arr}")
 
 
-a=Decode_words()
-a.deciphering_words()
-a.add_value_to_a_word()
+# a=Decode_words()
+# a.deciphering_words()
+# a.add_value_to_a_word()

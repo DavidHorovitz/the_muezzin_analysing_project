@@ -24,7 +24,8 @@ class Loed_to_mongo:
         try:
             with open(f"{path}", "rb") as f:
                 pdf_file_id = self.fs.put(f, filename=data["unique_id"],content_type="application/wev")
+
         except Exception as e:
             logger.error("not pushed_to_mongo")
-            
+
 
